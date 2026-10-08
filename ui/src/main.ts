@@ -139,7 +139,7 @@ function renderLock(mode: "unlock" | "create") {
 
 // ---------- shell ------------------------------------------------------------
 
-function navItem(label: string, icon: string, target: View, current: View) {
+function navItem(label: string, target: View, current: View) {
   const active = current.name === target.name ||
     (target.name === "projects" && (current.name === "project" || current.name === "secrets"));
   return h(
@@ -151,7 +151,6 @@ function navItem(label: string, icon: string, target: View, current: View) {
         void render();
       },
     },
-    icon,
     label,
   );
 }
@@ -161,7 +160,7 @@ function shell(content: Node): Node {
   return h(
     "div",
     { class: "shell" },
-    h("div", { class: "brand" }, h("span", { class: "logo" }, "◈"), "ENVVAULT"),
+    h("div", { class: "brand" }, "ENVVAULT"),
     h(
       "div",
       { class: "header" },
@@ -177,11 +176,11 @@ function shell(content: Node): Node {
       "nav",
       { class: "sidebar" },
       h("div", { class: "group" }, "OVERVIEW"),
-      navItem("Dashboard", "▣", { name: "dashboard" }, view),
+      navItem("Dashboard", { name: "dashboard" }, view),
       h("div", { class: "group" }, "PROJECTS"),
-      navItem("Projects", "▸", { name: "projects" }, view),
+      navItem("Projects", { name: "projects" }, view),
       h("div", { class: "group" }, "SECURITY"),
-      navItem("Audit Log", "◈", { name: "audit" }, view),
+      navItem("Audit Log", { name: "audit" }, view),
       h("div", { class: "spacer" }),
       h(
         "button",
@@ -193,7 +192,6 @@ function shell(content: Node): Node {
             await boot();
           },
         },
-        "🔒",
         "Lock vault",
       ),
     ),
@@ -313,7 +311,7 @@ async function renderProjects(): Promise<Node> {
               void render();
             },
           },
-          h("td", {}, h("span", { style: "color:var(--accent);margin-right:8px" }, "◈"), p.name),
+          h("td", {}, p.name),
           h("td", { class: "mono" }, String(p.environments)),
           h("td", { class: "mono" }, String(p.secrets)),
           h("td", {}, h("span", { class: "badge ok" }, "Active")),
