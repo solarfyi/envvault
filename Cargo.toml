@@ -5,6 +5,9 @@ edition = "2024"
 description = "Secure local-first environment & credential management for developers"
 license = "TBD"
 
+[workspace]
+members = [".", "src-tauri"]
+
 [dependencies]
 aead = "0.6.1"
 argon2 = "0.6.0"

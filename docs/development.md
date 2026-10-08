@@ -5,14 +5,14 @@
 - Rust stable (1.85+, edition 2024)
 - A C toolchain for the bundled SQLite (`rusqlite`): MSVC Build Tools on
   Windows, `cc` + `make` on Linux
-- Node.js ≥ 20 (only for the desktop UI, when working on it)
+- Node.js ≥ 20 (for the desktop UI frontend)
 
 ## Build & test
 
 ```bash
-cargo build            # debug build
-cargo test             # unit + integration tests
-cargo clippy --all-targets -- -D warnings
+cargo build            # debug build (CLI)
+cargo test --workspace # unit + integration tests
+cargo clippy --workspace --all-targets -- -D warnings
 cargo fmt --check
 cargo build --release  # optimized binary in target/release/envvault
 ```
@@ -22,6 +22,26 @@ Run the CLI without installing:
 ```bash
 cargo run -- init
 cargo run -- project create my-api
+```
+
+## Desktop app
+
+The Tauri app lives in `src-tauri/` and embeds the frontend built to
+`ui/dist`:
+
+```bash
+npm --prefix ui install
+npm --prefix ui run build     # required before cargo builds the app
+npm --prefix ui run check     # tsc --noEmit
+cargo run -p envvault-app
+```
+
+Frontend development with hot reload (optional):
+
+```bash
+npm --prefix ui run dev       # vite on :5173
+cargo install tauri-cli       # once
+cargo tauri dev               # window + hot reload
 ```
 
 ## Local development vault
@@ -53,7 +73,7 @@ export ENVVAULT_CONFIG_DIR=/tmp/ev-dev/cfg
 ## Project layout
 
 ```text
-src/
+src/                 core library (used by CLI and desktop app)
 ├── main.rs        CLI (clap) — presentation only
 ├── lib.rs         library root
 ├── crypto.rs      Argon2id + XChaCha20-Poly1305 wrappers
@@ -61,6 +81,8 @@ src/
 ├── store.rs       SQLite schema, pragmas, meta helpers
 ├── session.rs     unlocked-session persistence
 └── error.rs       unified error type
+src-tauri/           Tauri desktop app (thin command layer over the core)
+ui/                  frontend (Vite + TypeScript)
 tests/
 └── vault_integration.rs
 docs/

@@ -5,7 +5,7 @@
                     │
              ┌──────┴──────┐
              │             │
-           CLI          Desktop UI (planned)
+           CLI      Desktop UI (Tauri, src-tauri/)
              │             │
              └──────┬──────┘
                     │
@@ -22,8 +22,9 @@
             encrypted vault.db
 ```
 
-The CLI and the future desktop UI both link the same core library. Security
-logic (key derivation, encryption, session handling) exists exactly once.
+The CLI and the desktop UI both link the same core library. Security logic
+(key derivation, encryption, session handling) exists exactly once; the Tauri
+layer (`src-tauri/src/main.rs`) only forwards commands and formats errors.
 
 ## Crates / modules
 

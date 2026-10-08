@@ -34,7 +34,7 @@ fn is_unique_violation(err: &rusqlite::Error) -> bool {
 }
 
 /// Project is the main organizational unit of a vault.
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, serde::Serialize)]
 pub struct Project {
     pub id: String,
     pub name: String,
@@ -46,7 +46,7 @@ pub struct Project {
 }
 
 /// Environment groups secrets for a project (development, production, ...).
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, serde::Serialize)]
 pub struct Environment {
     pub id: String,
     pub project_id: String,
@@ -57,7 +57,7 @@ pub struct Environment {
 }
 
 /// Secret metadata. The value only ever exists decrypted in memory.
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, serde::Serialize)]
 pub struct Secret {
     pub id: String,
     pub project_id: String,
@@ -71,7 +71,7 @@ pub struct Secret {
 }
 
 /// Audit entry. Never contains secret values.
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, serde::Serialize)]
 pub struct AuditEntry {
     pub time: String,
     pub action: String,
@@ -80,7 +80,7 @@ pub struct AuditEntry {
 }
 
 /// Dashboard counters; exposes no secret values.
-#[derive(Debug, Clone, Default)]
+#[derive(Debug, Clone, Default, serde::Serialize)]
 pub struct Stats {
     pub projects: i64,
     pub environments: i64,

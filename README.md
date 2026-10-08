@@ -57,8 +57,19 @@ No plaintext `.env` file is ever written.
 | `.env` import / export with confirmation | ✅ |
 | Encrypted backup | ✅ |
 | Audit log (never records values) | ✅ |
-| Desktop UI | ⏳ planned (Tauri) |
+| Desktop UI (Tauri): lock screen, dashboard, projects, secrets, audit | ✅ basic |
 | SSH key management | ⏳ planned (v0.3) |
+
+## Desktop app
+
+```bash
+npm --prefix ui install
+npm --prefix ui run build     # frontend → ui/dist (embedded by Tauri)
+cargo run -p envvault-app
+```
+
+The GUI and the CLI share the same core library and the same vault: unlock in
+one, and `envvault run` works from the terminal.
 
 ## Install
 

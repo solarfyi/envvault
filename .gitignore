@@ -1,6 +1,8 @@
 /target
-/node_modules
-/dist
+node_modules/
+ui/dist/
+ui/.vite/
+src-tauri/gen/
 *.db
 *.db-wal
 *.db-shm
